@@ -60,7 +60,7 @@ export function Navbaar() {
   }
 
   return (
-    <Navbar dir='ltr' rounded className="py-2 px-4 bg-white dark:bg-black shadow-md">
+    <Navbar dir='ltr' rounded className="py-2  bg-white dark:bg-black shadow-md">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Navbar.Brand as={Link} to="/" className="flex items-center">
           <img src={mode === "dark" ? logoDark : logoLight} className="h-10 mr-3" alt="Logo" />
