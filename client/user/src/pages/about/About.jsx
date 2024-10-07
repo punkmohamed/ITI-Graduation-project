@@ -24,10 +24,12 @@ export default function About() {
 
   return (
     <>
-      <Helmet>
+      {/*       <Helmet>
         <title>About</title>
         <meta name="description" content="About Page" />
-      </Helmet>
+      </Helmet>*/}
+
+
       <div className=" rounded-3xl max-w-7xl mx-auto py-12 px-1">
         <h3 className="flex items-center gap-2 justify-center text-2xl sm:text-3xl  md:text-5xl font-extrabold  text-orange-500 dark:text-orange-200 mb-8 text-center">
           <i className="fa-brands fa-font-awesome"></i>
