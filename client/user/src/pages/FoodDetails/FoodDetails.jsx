@@ -180,12 +180,12 @@ const FoodDetails = () => {
                                     {language === 'en' ? food?.description?.en : food?.description?.ar}
                                 </p>
                             </div>
-                            <div className="flex mb-4 items-center">
+                            <div className="flex flex-col md:flex-row gap-4 items-center mb-4">
                                 <div className="mr-4">
                                     <span className="font-bold text-gray-700 dark:text-white mr-2 text-xl">{translation.price}</span>
                                     <span className="text-red-900 dark:text-white text-2xl font-bold px-2">{price}{translation.egp}</span>
                                 </div>
-                                <div className="flex flex-col md:flex-row gap-4 items-center">
+                                <div className="">
                                     <span className="font-bold text-gray-700 dark:text-white mr-2 text-xl px-2">{translation.Category}</span>
                                     <span className="text-gray-600 dark:text-gray-300 text-2xl font-semibold">{language === 'en' ? food?.category?.name?.en : food?.category?.name?.ar}</span>
                                 </div>

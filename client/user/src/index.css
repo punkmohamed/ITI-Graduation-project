@@ -43,3 +43,12 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #b23203;
 }
+
+.catBack{
+
+ background-image: url('src/assets/affricanoImg/bg2.jpg');
+}  
+  
+.catBackLight{
+  background-image: url('src/assets/affricanoImg/bg-light.webp');
+}
