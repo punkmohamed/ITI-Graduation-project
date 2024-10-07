@@ -47,10 +47,10 @@ html {
 .catBack{
 
  background-image: url('./assets/affricanoImg/bg2.jpg');
- background-size: cover;
+
 }  
   
 .catBackLight{
   background-image: url('./assets/affricanoImg/bg-light.webp');
-  background-size: cover;
+
 }
