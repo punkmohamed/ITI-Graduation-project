@@ -82,6 +82,7 @@ const FoodDetails = () => {
 
 
 
+
     if (isLoading) return <DetailsLoading />
     return (
         <>

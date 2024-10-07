@@ -10,8 +10,8 @@ export const content = [
 export const theme = {
   extend: {
     backgroundImage: {
-      'catBack': "url('./src/assets/affricanoImg/bg2.jpg')",
-      'catBackLight': "url('./src/assets/affricanoImg/bg-light.webp')",
+      'catBack': "url('src/assets/affricanoImg/bg2.jpg')",
+      'catBackLight': "url('src/assets/affricanoImg/bg-light.webp')",
     }
   },
 };
