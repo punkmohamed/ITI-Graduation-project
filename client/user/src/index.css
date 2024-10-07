@@ -46,9 +46,9 @@ html {
 
 .catBack{
 
- background-image: url('./src/assets/affricanoImg/bg2.jpg');
+ background-image: url('./assets/affricanoImg/bg2.jpg');
 }  
   
 .catBackLight{
-  background-image: url('./src/assets/affricanoImg/bg-light.webp');
+  background-image: url('./assets/affricanoImg/bg-light.webp');
 }
