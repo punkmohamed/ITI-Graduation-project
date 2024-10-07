@@ -21,10 +21,10 @@ export default function Contact() {
     return (
 
         <div className=" shadow-2xl  border rounded-3xl max-w-7xl mx-auto py-12 px-1">
-            <Helmet>
+            {/* <Helmet>
                 <title>Contact</title>
                 <meta name="description" content="About Page" />
-            </Helmet>
+            </Helmet> */}
             <h3 className="text-2xl sm:text-3xl md:text-5xl font-extrabold  text-orange-500 dark:text-orange-200  mb-8 text-center">
                 <i className="fa-solid fa-headset pe-3"></i>
                 {translation.contactUs}
