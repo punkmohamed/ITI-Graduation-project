@@ -1,0 +1,17 @@
+.active{
+   
+    @apply text-black font-bold dark:text-white
+}
+.link{
+    color:gray
+}
+
+.custom-navbar-collapse ul {
+  @apply gap-4  items-center
+  
+    }
+  
+  .custom-navbar-collapse ul > a {
+    margin: 0 !important; 
+  }
+  

@@ -1,0 +1,261 @@
+<div class="min-h-screen bg-gray-100 p-4">
+  <h1 class="text-teal-800 text-4xl my-3 text-center font-bold">Orders</h1>
+
+  <div class="flex items-center justify-around space-y-4">
+    <mat-form-field class="w-72" appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" placeholder="Search by name or Customer Number..." [(ngModel)]="searchTerm"
+        (ngModelChange)="filterProductsByNumber()" class="p-2" />
+    </mat-form-field>
+
+    <div *ngIf="orders.length > 0 && selectedOrders.length" class="flex flex-col items-center w-72 space-y-1">
+      <div class="flex items-center space-x-8">
+        <p-dropdown [options]="statusOptions" [(ngModel)]="currentStatus" placeholder="Select Status"
+          class="w-1/2"></p-dropdown>
+
+        <button (click)="updateSelectedOrdersStatus(currentStatus)" [disabled]="!selectedOrders.length" mat-fab
+          color="accent" class="p-2">
+          <mat-icon>update</mat-icon>
+        </button>
+        <mat-card-content>
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="animals">Actions</button>
+          <mat-menu #animals="matMenu">
+            <button mat-menu-item (click)="confirmDeleteSelected()" [disabled]="!selectedOrders.length" color="warn"
+              class="flex items-center space-x-2 w-full p-2">
+              <mat-icon>delete</mat-icon>
+              <span>Delete Selected</span>
+            </button>
+
+            <button mat-menu-item (click)="downloadSelectedOrdersReceipts()" [disabled]="!selectedOrders.length"
+              color="primary" class="flex items-center space-x-2 w-full p-2">
+              <mat-icon>receipt</mat-icon>
+              <span>Download Selected Receipt</span>
+            </button>
+          </mat-menu>
+        </mat-card-content>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <div class="max-w-7xl mx-auto">
+    <mat-card class="shadow-lg rounded-lg overflow-hidden">
+      <mat-card-content class="p-0">
+        <p-toast></p-toast>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" (selectedTabChange)="onTabChange($event)"
+          class="order-tabs">
+          <mat-tab label="Preparing">
+            <ng-container *ngTemplateOutlet="orderTable"></ng-container>
+          </mat-tab>
+          <mat-tab label="On the Way">
+            <ng-container *ngTemplateOutlet="orderTable"></ng-container>
+          </mat-tab>
+          <mat-tab label="Delivered">
+            <ng-container *ngTemplateOutlet="orderTable"></ng-container>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <ng-template #orderTable>
+    <div *ngIf="orders.length === 0; else orderList">
+      <h2 class="text-3xl text-teal-800 my-10 text-center font-semibold">No current orders</h2>
+    </div>
+
+    <ng-template #orderList styleClass="bg-red-900">
+      <div class=" ">
+        <p-table [value]="orders" dataKey="_id" class="w-full " styleClass="custom-table" [(selection)]="selectedOrders"
+          (onSelectionChange)="onSelectionChange($event)">
+          <ng-template pTemplate="header">
+            <tr class="bg-teal-700 text-white">
+              <th style="width: 3em" class="py-3 pl-4 cursor-pointer">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th class="py-3 px-8 text-left">ID</th>
+              <th class="py-3 px-4 text-left">Customer</th>
+              <th class="py-3 px-10 text-left">Phone</th>
+              <th class="py-3 px-4 text-right">Total Price</th>
+              <th class="py-3 px-4 text-center">Order</th>
+              <th class="py-3 px-4 text-center">Status</th>
+              <th class="py-3 px-4 text-left">Order Time</th>
+              <th class="py-3 px-4 text-left">Payment Method</th>
+              <th class="py-3 px-4 text-left">Actions</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-order let-i="rowIndex" class="">
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-150 ease-in-out w-full ">
+              <td class="py-3 pl-4 cursor-pointer">
+                <p-tableCheckbox [value]="order"></p-tableCheckbox>
+              </td>
+              <td class="py-3 px-10 cursor-pointer">{{ i +1 }}</td>
+              <td class="py-3 px-4 cursor-pointer hover:text-orange-500"
+                (click)="toggleRowExpansion(order._id, 'user')">
+                {{ order?.billing_data?.first_name }} {{ order?.billing_data?.last_name }}
+              </td>
+              <td class="py-3 px-4 cursor-pointer" (click)="toggleRowExpansion(order._id, 'user')">
+                {{ order?.billing_data?.phone_number }}
+              </td>
+              @if (order?.payment_method === 'online') {
+              <td class="py-3 px-4 text-right">{{ order?.intention_detail?.total.toFixed(2) / 100 }} LE</td>
+              }@else {
+              <td class="py-3 px-4 text-right">{{ +order?.intention_detail?.total.toFixed(0) + +deliveyPrice }} LE</td>
+              }
+              <td class="py-3 px-4 text-center cursor-pointer hover:text-orange-500"
+                (click)="toggleRowExpansion(order._id, 'order')">
+                Order Details
+              </td>
+              <td class="py-3 px-4 text-center">
+                <p-dropdown [options]="statusOptions" [(ngModel)]="order.status" [placeholder]="order?.status"
+                  (onChange)="updateOrderStatus(order._id, order.status)" styleClass="custom-dropdown" appendTo="body">
+                </p-dropdown>
+              </td>
+
+              <td class="py-3 px-4">{{ order?.createdAt | date:'medium' }}</td>
+
+              <td class="p-2 rounded-2xl">
+                <p [ngClass]="{
+                  'bg-green-500 text-green-800': order?.payment_method === 'online',
+                  'bg-orange-500 text-orange-800': order?.payment_method === 'cash'
+                }" class="rounded-xl p-1 w-[55px] text-center"> {{ order?.payment_method }}</p>
+              </td>
+              <td>
+
+                <div class="flex items-center space-x-3">
+                  <div class="text-teal-700 text-3xl cursor-pointer hover:text-teal-900 ml-4"
+                    (click)="downloadOrderAsPNG(order._id)">
+                    <i class="fa-solid fa-receipt"></i>
+                  </div>
+                  <div class="text-[#e46a76] text-3xl cursor-pointer hover:text-red-900 "
+                    (click)="confirmDelete(order._id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+
+            <div class="receipt absolute top-[-9999px]" id="order-{{order._id}}">
+              <div class="receipt-header">
+                <div class="flex justify-center items-center">
+                  <img src="assets/logo/logo.li.png" alt="" class="size-40" />
+                </div>
+                <h1 class="text-lg font-bold">Africano Restaurant</h1>
+                <p>{{ order?.billing_data?.floor }}, {{ order?.billing_data?.apartment }}</p>
+                <p>{{ order?.billing_data?.street }}, {{ order?.billing_data?.building }}</p>
+                <p>{{ order?.billing_data?.phone_number }}</p>
+              </div>
+              <div class="receipt-order">
+                <h2>ORDER: {{ i +1 }}</h2>
+                <h3> {{ order?.payment_method }}</h3>
+                <p>Customer: {{ order?.billing_data?.first_name }} {{ order?.billing_data?.last_name }}</p>
+                <p>{{ order?.createdAt | date:'medium' }}</p>
+              </div>
+              <div class="receipt-items">
+                <table>
+                  <ng-container *ngIf="order?.intention_detail?.items?.length > 0">
+                    <tr *ngFor="let item of order.intention_detail.items">
+                      @if (order?.payment_method === 'online') {
+                      <td class="description">{{ item.quantity }} x {{ item.name }}</td>
+                      } @else {
+                      <td class="description">{{ item.quantity }} x {{ item.name.en }}</td>
+                      }
+                      @if (order?.payment_method === 'online') {
+                      <td class="price">{{ item.amount_cents.toFixed(2) / 100 }} LE</td>
+                      }@else {
+                      <td class="price">{{ item.amount.toFixed(0) }} LE</td>
+                      }
+                    </tr>
+                  </ng-container>
+                  @if(order?.payment_method === 'cash'){
+                  <tr>
+                    <td class="">Delivery</td>
+                    <td class="price">{{deliveyPrice}} LE</td>
+                  </tr>
+                  }
+
+                </table>
+              </div>
+              @if (order?.payment_method === 'online') {
+              <div class="receipt-total">
+                Total: {{ order?.intention_detail?.total.toFixed(2) / 100 }}LE
+              </div>
+              }
+              @else{
+              <div class="receipt-total">
+                Total: {{ +order?.intention_detail?.total.toFixed(0) + +deliveyPrice }} LE
+              </div>
+              }
+
+            </div>
+            <tr *ngIf="expandedRows[order._id] === 'user'">
+              <td colspan="9" class="p-0">
+                <div class="bg-gray-100 p-4 ">
+                  <h3 class="text-lg font-semibold mb-2 text-center text-teal-700">User Details</h3>
+                  <p-table [value]="[order?.billing_data]" styleClass="custom-table">
+                    <ng-template pTemplate="header">
+            <tr class="bg-teal-600 text-white">
+              <th class="py-2 px-3 text-left">Email</th>
+              <th class="py-2 px-3 text-left">Street</th>
+              <th class="py-2 px-3 text-left">Building</th>
+              <th class="py-2 px-3 text-left">Floor</th>
+              <th class="py-2 px-3 text-left">Apartment</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td class="py-2 px-3">{{ user?.email }}</td>
+              <td class="py-2 px-3">{{ user?.street }}</td>
+              <td class="py-2 px-3">{{ user?.building }}</td>
+              <td class="py-2 px-3">{{ user?.floor }}</td>
+              <td class="py-2 px-3">{{ user?.apartment }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      </td>
+      </tr>
+
+      <tr *ngIf="expandedRows[order._id] === 'order'">
+        <td colspan="9" class="p-0">
+          <div class="bg-gray-100 p-4">
+            <h3 class="text-lg font-semibold mb-2 text-teal-700 text-center">Order Details</h3>
+            <p-table [value]="order?.intention_detail?.items" styleClass="custom-table">
+              <ng-template pTemplate="header">
+      <tr class="bg-teal-600 text-white">
+        <th class="py-2 px-3 text-left">Food Item</th>
+        <th class="py-2 px-3 text-center">Size</th>
+        <th class="py-2 px-3 text-center">Quantity</th>
+        <th class="py-2 px-3 text-right">Amount</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        @if (order?.payment_method === 'online') {
+        <td class="py-2 px-3">{{ item?.name }}</td>
+        }@else {
+        <td class="py-2 px-3">{{ item?.name?.en }}</td>
+        }
+        <td class="py-2 px-3 text-center">{{ item?.size }}</td>
+        <td class="py-2 px-3 text-center">{{ item?.quantity }}</td>
+        @if (order?.payment_method === 'online') {
+        <td class="py-2 px-3 text-right">{{ item?.amount_cents / 100 }} LE</td>
+        }@else {
+        <td class="py-2 px-3 text-right">{{ item?.amount }} LE</td>
+        }
+      </tr>
+    </ng-template>
+    </p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+</p-table>
+</div>
+</ng-template>
+</ng-template>
+</div>

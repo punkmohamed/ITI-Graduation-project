@@ -1,0 +1,78 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Center the toast */
+.p-toast {
+  position: fixed; /* Fixed position for responsiveness */
+  top: 20px; /* Distance from the top */
+  left: 50%; /* Center from the left */
+  transform: translateX(-50%); /* Centering transform */
+  max-width: 90%; /* Max width for responsiveness */
+  width: auto; /* Auto width */
+  z-index: 1000; /* Make sure it's on top */
+}
+
+.p-toast-message {
+  word-break: break-word; /* Break long words */
+  padding: 1rem; /* Adjust padding */
+  max-width: 100%;
+  margin-inline: 15px; /* Prevent overflow */
+}
+
+
+.p-dropdown-panel {
+  z-index: 1050 !important;
+  /* Ensure it's higher than other elements */
+}
+
+.p-checkbox:checked .p-checkbox-box {
+  background-color: orange !important;
+  /* Background color when checked */
+  border-color: orange !important;
+  /* Border color when checked */
+}
+
+.p-checkbox:checked .p-checkbox-box::after {
+  background-color: orange !important;
+  /* Change checkmark color */
+}
+
+
+.p-checkbox-box {
+  border: 1px solid #ccc;
+  /* Default border color */
+  border-radius: 4px;
+  /* Rounded corners */
+  width: 1.5em;
+  /* Width of the checkbox */
+  height: 1.5em;
+  /* Height of the checkbox */
+  position: relative;
+  /* Position for the checkmark */
+}
+
+.p-checkbox-box:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: orange;
+  /* Background color for checked state */
+  opacity: 0;
+  /* Hide by default */
+  transition: opacity 0.2s ease;
+  /* Smooth transition */
+}
+
+.p-checkbox:checked+.p-checkbox-box:after {
+  opacity: 1;
+  /* Show checkmark background when checked */
+}
+
