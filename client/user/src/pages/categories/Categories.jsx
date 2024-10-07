@@ -11,6 +11,7 @@ export default function Categories() {
     const { link } = useSelector(state => state.apiLink)
 
     const getAllCategories = async () => {
+
         setIsLoading(true)
         try {
             const { data } = await axios.get(`${link}/api/categories`)
