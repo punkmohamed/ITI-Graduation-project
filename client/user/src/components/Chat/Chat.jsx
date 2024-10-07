@@ -146,7 +146,7 @@ const Chat = () => {
           initial="hidden"
           animate="visible"
           exit="exit"
-          ref={chatContainerRef} className="fixed bottom-24 right-4 bg-white rounded-lg border border-gray-200 w-96 shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
+          ref={chatContainerRef} className="fixed bottom-24 right-4 z-[9999] bg-white rounded-lg border border-gray-200 w-96 shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
           <div className="p-4 border-b border-gray-200 flex items-centet justify-between">
             <h2 className="font-semibold text-lg text-gray-800">Customer service Chat service</h2>
             <h1 onClick={() => setIsOpen((prev) => !prev)} className='text-2xl cursor-pointer text-gray-900 hover:text-gray-600'><i className="fa-solid fa-x"></i></h1>
