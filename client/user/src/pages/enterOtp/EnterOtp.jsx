@@ -10,7 +10,6 @@ import { HiXCircle } from 'react-icons/hi';
 import { List } from 'flowbite-react';
 import { Helmet } from 'react-helmet-async';
 import CheckIcon from './../../components/ReactI-cons/CheckIcon/CheckIcon';
-import LabelIcon from './../../components/ReactI-cons/label/LabelIcon';
 import EmailIcon from './../../components/ReactI-cons/EmailIcon/EmailIcon';
 import LockIcon from './../../components/ReactI-cons/lockIcon/LockIcon';
 

@@ -17,7 +17,7 @@ export class SocketIoService {
 
   constructor() {
 
-    this.socket = io('http://localhost:3000', {
+    this.socket = io('https://iti-graduation-back-end-production.up.railway.app', {
       transports: ['websocket'],
       withCredentials: true,
     });
