@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiLinkService {
-  apiLink: BehaviorSubject<string> = new BehaviorSubject('https://ec2-3-87-140-186.compute-1.amazonaws.com')
+  apiLink: BehaviorSubject<string> = new BehaviorSubject('https://africano-server.vercel.app')
   constructor() {
   }
 }
