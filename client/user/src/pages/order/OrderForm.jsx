@@ -72,7 +72,7 @@ const OrderForm = () => {
     async ({ billing_data, payment_method }) => {
       const headers = { token: `${user}` };
       const dataToSend = {
-        redirection_url: payment_method === 'online' ? "https://b6f3-197-59-199-117.ngrok-free.app" : undefined,
+        redirection_url: payment_method === 'online' ? "https://africano-server.vercel.app" : undefined,
         after_redirect_url: "https://africano-resturant-user.vercel.app",
         billing_data: billing_data,
         payment_method: payment_method
