@@ -1,6 +1,12 @@
 .bgImgDark{
     background-image: url('../../assets/background/bg-black.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .bgImgWhite{
     background-image: url('../../assets/background/bg-white.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
